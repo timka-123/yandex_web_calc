@@ -1,7 +1,9 @@
 package internal
 
 import (
+	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -25,9 +27,15 @@ func PanicMiddleware(next http.HandlerFunc) http.HandlerFunc {
 
 func CalculatorMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.Header.Set("Content-Type", "application/json")
 		var requestData CalculatorRequest
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&requestData)
+
+		// I wanted to make this code more beautiful but my beautiful version does not working:(
+		bodyBytes, _ := ioutil.ReadAll(r.Body)
+		r.Body.Close()
+		r.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+
+		err := json.Unmarshal(bodyBytes, &requestData)
 
 		if err != nil {
 			log.Printf("Handled invalid request to %s. Maybe data was mailformed\n", r.URL)
@@ -44,8 +52,6 @@ func CalculatorMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			json.NewEncoder(w).Encode(response)
 			return
 		}
-		r.PostForm.Set("expression", requestData.Expression)
-
 		next.ServeHTTP(w, r)
 	})
 }
