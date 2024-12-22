@@ -23,7 +23,7 @@ func PanicMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	})
 }
 
-func CalculatorMiddleware(next http.HandlerFunc) http.HandlerFunc {
+func PostMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		r.Header.Set("Content-Type", "application/json")
 		if r.Method != http.MethodPost {
