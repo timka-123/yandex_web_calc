@@ -53,7 +53,7 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 
 ### Tests
 
-To run project run command there:
+For running project tests run command there:
 ```bash
 go test tests/* -v
 ```
