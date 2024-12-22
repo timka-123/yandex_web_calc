@@ -15,7 +15,7 @@ func TestInvalidExpressionCalculatorHandler(t *testing.T) {
 	for _, expression := range expressions {
 		requestData := internal.CalculatorRequest{Expression: expression}
 		body, _ := json.Marshal(requestData)
-		req, err := http.NewRequest("POST", "/calculate", bytes.NewBuffer(body))
+		req, err := http.NewRequest("POST", "/api/v1/calculate", bytes.NewBuffer(body))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -39,7 +39,7 @@ func TestInvalidExpressionCalculatorHandler(t *testing.T) {
 func TestValidExpressionCalculatorHandler(t *testing.T) {
 	requestData := internal.CalculatorRequest{Expression: "2+2"}
 	body, _ := json.Marshal(requestData)
-	req, err := http.NewRequest("POST", "/calculate", bytes.NewBuffer(body))
+	req, err := http.NewRequest("POST", "/api/v1/calculate", bytes.NewBuffer(body))
 	if err != nil {
 		t.Fatal(err)
 	}
