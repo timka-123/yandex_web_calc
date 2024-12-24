@@ -1,4 +1,4 @@
-module yandex_web_calc
+module https://github.com/timka-123/yandex_web_calc
 
 go 1.21.5
 
